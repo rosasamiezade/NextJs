@@ -1,14 +1,45 @@
-import React from "react";
+'use client'
+import React, { useEffect } from "react";
+import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+
 interface CharacterCard {
   id:number;
   name: string;
   species:string;
   status	:string;
   LastLocation:string;
-  gender:string;
+  First:string;
   image	:string;
+
 }
-const CharacterCard: React.FC<CharacterCard> = ({ id,name,species,status,LastLocation,gender	,image	 }): JSX.Element => {
+const CharacterCard: React.FC<CharacterCard> = ({ id,name,species,status,LastLocation,First	,image	 }): JSX.Element => {
+  useEffect(() => {
+    console.log("mount", id)
+
+    return console.log("un mount", id)
+  }, [])
+  console.log("url", First )
+  const fetchingFirstLoc = async()=>{
+    const res= await fetch(`${First}`);
+    const data=res.json()
+    return data;
+  }
+  const {data:FirstSeen,isLoading,error}=useQuery({
+    queryKey:[id],
+    queryFn:fetchingFirstLoc
+  })
+console.log( 'FirstSeen', FirstSeen)
+// const firstSeenPlace=FirstSeen.name;
+
+if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
     <article className="w-[600px] h-[220px] flex overflow-hidden bg-[#3c3e44] rounded-md m-3 shadow-lg shadow-black/10">
       <div className="flex-[2_1_0%] w-full">
@@ -16,20 +47,22 @@ const CharacterCard: React.FC<CharacterCard> = ({ id,name,species,status,LastLoc
      </div>
      <div className="flex-[3_1_0%] relative p-3 text-white flex flex-col">
       <div className="flex-[1_1_0%] flex flex-col">
-      <h2>{name}</h2>
-      <span className="flex items-center capitalize">
-        <span className="h-2 w-2 mr-1.5 bg-[#55cc44] rounded-full">
-        {status}-{species}
-        </span>
-      </span>
+      <Link href={`/character/${id}`}>
+              <h2 className="text-xl font-bold hover:underline">{name}</h2>
+          </Link>
+      <div className="flex items-center capitalize ">
+        <span className="h-2 w-2 mr-1.5 rounded-full" style={{backgroundColor:status==="Alive"?'green':status==="Dead"?'red':"gray"}}></span>
+        <div>        {status}-{species}</div>        
+      </div>
       </div>
       <div className="flex-[1_1_0%] flex flex-col justify-center">
         <span className="text-gray-400 text-[16px] font-medium">Last known location:</span>
       <p className="text-gray-100">{LastLocation}</p>
       </div>
       <div className="flex-[1_1_0%] flex flex-col justify-center">
-        <span className="text-gray-400 text-[16px] font-medium">Gender	:</span>
-        <p className="text-gray-100">{gender}</p>
+        <span className="text-gray-400 text-[16px] font-medium">First seen in:
+        </span>
+        {/* <p className="text-gray-100">{firstSeenPlace}</p> */}
       </div>
      </div>
      
