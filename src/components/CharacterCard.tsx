@@ -1,7 +1,7 @@
 'use client'
-import React, { useEffect } from "react";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
+import Image from 'next/image';
 
 interface CharacterCard {
   id:number;
@@ -11,15 +11,9 @@ interface CharacterCard {
   LastLocation:string;
   First:string;
   image	:string;
-
 }
 const CharacterCard: React.FC<CharacterCard> = ({ id,name,species,status,LastLocation,First	,image	 }): JSX.Element => {
-  useEffect(() => {
-    console.log("mount", id)
 
-    return console.log("un mount", id)
-  }, [])
-  console.log("url", First )
   const fetchingFirstLoc = async()=>{
     const res= await fetch(`${First}`);
     const data=res.json()
@@ -29,7 +23,6 @@ const CharacterCard: React.FC<CharacterCard> = ({ id,name,species,status,LastLoc
     queryKey:[id],
     queryFn:fetchingFirstLoc
   })
-console.log( 'FirstSeen', FirstSeen)
 // const firstSeenPlace=FirstSeen.name;
 
 if (isLoading) {
@@ -43,7 +36,7 @@ if (isLoading) {
   return (
     <article className="w-[600px] h-[220px] flex overflow-hidden bg-[#3c3e44] rounded-md m-3 shadow-lg shadow-black/10">
       <div className="flex-[2_1_0%] w-full">
-      <img src={image} alt="image" className="w-full h-full m-0 opacity-100 transition-opacity duration-500 object-center object-cover"/>
+      <Image src={image} width={500} height={500}alt="image" className="w-full h-full m-0 opacity-100 transition-opacity duration-500 object-center object-cover"/>
      </div>
      <div className="flex-[3_1_0%] relative p-3 text-white flex flex-col">
       <div className="flex-[1_1_0%] flex flex-col">
@@ -62,7 +55,9 @@ if (isLoading) {
       <div className="flex-[1_1_0%] flex flex-col justify-center">
         <span className="text-gray-400 text-[16px] font-medium">First seen in:
         </span>
-        {/* <p className="text-gray-100">{firstSeenPlace}</p> */}
+        {FirstSeen.name && (
+          <p className="text-gray-100">{FirstSeen.name}</p>
+        )}
       </div>
      </div>
      

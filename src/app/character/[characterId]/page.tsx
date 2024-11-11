@@ -1,6 +1,7 @@
 'use client'
 import CharacterCard from "@/components/CharacterCard";
 import { useQuery } from "@tanstack/react-query";
+import * as React from 'react'
 
 
 // interface CharacterCardProps {
@@ -13,19 +14,27 @@ import { useQuery } from "@tanstack/react-query";
 //     image	:string;
 //   }
 
+type CharacterIdProps = {
+    params: Promise< {characterId: string }>
+}
 
-const CharacterId : React.FC = ({ params }): JSX.Element => {
-    
+const getstaticparams =
+
+const CharacterId : React.FC<CharacterIdProps> = ({ params}): JSX.Element => {
+    const {characterId} =React.use(params) ;
+    // const { characterId } = params;
+    console.log('url:', `https://rickandmortyapi.com/api/character/${characterId}`)
+    console.log('id', characterId)
     const fetchCharacterById = async ()=>{
-        const res = await fetch (`https://rickandmortyapi.com/api/character/${params.characterId}`);
-        const data=res.json();
+        const res = await fetch (`https://rickandmortyapi.com/api/character/${characterId}`, { cache: });
+        const data=await res.json();
         return data
     }
-const {data,isLoading,error}=useQuery({
-    queryKey:[CharacterId],
+    
+const {data,isLoading,error,isFetched}=useQuery({
+    queryKey:[characterId],
     queryFn:fetchCharacterById
 })
-console.log(data)
 if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -35,7 +44,10 @@ if (isLoading) {
   }
     return(
         <div className="flex justify-center items-center min-h-screen bg-[#272b33]">
-       <CharacterCard {...data} />
+            {
+                isFetched&&data&&<CharacterCard {...data} LastLocation={data.location?.name|| "Unknown"} First={data.episode?.[0]|| "Unknown"} />
+
+            }
     </div>
     )
 }

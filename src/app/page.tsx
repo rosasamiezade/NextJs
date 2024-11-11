@@ -2,6 +2,7 @@
 
 import CharacterCard from "../components/CharacterCard";
 import { useQuery } from "@tanstack/react-query";
+import Buttons from "@/components/Buttons";
 interface ICharacterCard {
   id:number;
   name: string;
@@ -10,8 +11,10 @@ interface ICharacterCard {
   LastLocation:string;
   gender:string;
   image	:string;
-  location:string;
-  episode:[]
+  location:{
+    name:string;
+  };
+  episode:string[];
 }
 export default function Home() {
   const fetchCharacter = async () => {
@@ -24,7 +27,6 @@ export default function Home() {
     queryFn: fetchCharacter,
     queryKey: ["Character"],
   });
-  console.log(data);
   if(isLoading){
     return <div>Loading ...</div>
   }
@@ -32,10 +34,15 @@ export default function Home() {
     return <div>Error : {error.message}</div>
   }
   return (
-    <div className="flex flex-wrap bg-[#272b33] min-h-[calc(-60px + 50vh)]">
-      {data?.map((dataa:ICharacterCard) => {
-        return <CharacterCard key={data.id} {...dataa} LastLocation={dataa.location.name} First={dataa.episode[0]}/>;
+    <div className="bg-[#272b33]">
+     <div className="flex flex-wrap bg-[#272b33] min-h-[calc(-60px + 50vh)]">
+     {data&&data.map((dataa:ICharacterCard) => {
+        return <CharacterCard key={dataa.id} {...dataa} LastLocation={dataa.location.name} First={dataa.episode[0]}/>;
       })}
+     </div>
+      <div className="text-red-600">
+        <Buttons value="1" handleClick={()=>console.log("rosa")} />
+      </div>
     </div>
   );
 }
