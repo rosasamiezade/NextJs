@@ -23,7 +23,6 @@ const CharacterCard: React.FC<CharacterCard> = ({ id,name,species,status,LastLoc
     queryKey:[id],
     queryFn:fetchingFirstLoc
   })
-// const firstSeenPlace=FirstSeen.name;
 
 if (isLoading) {
     return <div>Loading...</div>;
