@@ -1,10 +1,11 @@
 import MainPage from "@/components/MainPage";
-export default function Home() {
-  
+type SearchParams = { [key: string]: string | string[] | undefined }
 
+export default async function Home({ searchParams }:SearchParams) {
+const {page} =await searchParams;
   return (
     <div >
-    <MainPage/>
+    <MainPage page={page}/>
     </div>
   );
 }
