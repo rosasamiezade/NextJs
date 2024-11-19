@@ -25,7 +25,7 @@ return(
         <Buttons value="<<" handleClick={()=>{handleRouts(1)}} isDisabled={pageNumber===1} isActive={false}/>
         <Buttons value="<" handleClick={()=>handleRouts(pageNumber-1)} isDisabled={pageNumber===1} isActive={false}/>
         <Buttons value={`${pageNumber===1?"-" : pageNumber-1}`} handleClick={()=>handleRouts(pageNumber-1)} isDisabled={pageNumber===1} isActive={false}/>
-<Buttons value={pageNumber} handleClick={()=>handleRouts(pageNumber)} isDisabled={false} isActive={true}/>
+        <Buttons value={pageNumber} handleClick={()=>handleRouts(pageNumber)} isDisabled={false} isActive={true}/>
       <Buttons value={`${pageNumber===42?"-":pageNumber+1}`} handleClick={()=>handleRouts(+pageNumber+1)} isDisabled={pageNumber===42} isActive={false}/>
         <Buttons value=">" handleClick={()=>handleRouts(pageNumber+1)} isDisabled={pageNumber===42} isActive={false}/>
         <Buttons value=">>" handleClick={()=>{handleRouts(info.pages)}} isDisabled={pageNumber===info.pages} isActive={false}/>
