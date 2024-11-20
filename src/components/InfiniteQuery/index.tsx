@@ -2,6 +2,10 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import CharacterCard from '../CharacterCard/index';
+import { useInView } from "react-intersection-observer";
+import { useEffect } from 'react';
+
+
 type ICharacterCard ={
     id:number;
     name: string;
@@ -37,9 +41,16 @@ const {
     },
   })
 console.log(fetchedData);
-
+const { ref, inView } = useInView({
+    triggerOnce: false, 
+  });
+  useEffect(()=>{
+if(inView){
+    fetchNextPage();
+}
+  },[inView])
 return(
-    <>
+    <div  className="flex flex-wrap bg-[#272b33] min-h-[calc(-60px + 50vh)]"> 
         {
         fetchedData?.pages?.map((page)=>{
             return (
@@ -48,8 +59,16 @@ return(
                )
             )
         })
+
         }
-    </>
+        <div ref={ref}></div>
+        {isFetchingNextPage && <p>Loading more characters...</p>}
+         {hasNextPage && !isFetchingNextPage && (
+        <button onClick={() => fetchNextPage()}>Load More</button>
+      )}
+    </div>
+       
+
 )
 }
 

@@ -5,9 +5,9 @@ type SearchParams = { [key: string]: string | string[] | undefined }
 export default async function Home({ searchParams }:SearchParams) {
 const {page} =await searchParams;
   return (
-    <>
+    <div className="m-0">
     {/* <MainPage page={page}/> */}
     <InfiniteScroll/>
-    </>
+    </div>
   );
 }
