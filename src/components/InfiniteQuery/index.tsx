@@ -21,8 +21,8 @@ type ICharacterCard ={
   }
 
 const InfiniteQuery = ()=>{
-const fetchCharactersPages=async(pageParams=1)=>{
-const res= await axios.get(`https://rickandmortyapi.com/api/character?page=${pageParams}`);
+const fetchCharactersPages=async({ pageParam = 1 }: { pageParam?: number })=>{
+const res= await axios.get(`https://rickandmortyapi.com/api/character?page=${pageParam}`);
 return res.data;
 }
 
@@ -40,15 +40,14 @@ const {
         return lastPage.info.next ? lastPage.info.next.split('=')[1] : undefined;
     },
   })
-console.log(fetchedData);
-const { ref, inView } = useInView({
-    triggerOnce: false, 
-  });
-  useEffect(()=>{
-if(inView){
-    fetchNextPage();
-}
-  },[inView])
+
+  console.log("data.pages",fetchedData)
+const { ref, inView } = useInView();
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView]);
 return(
     <div  className="flex flex-wrap bg-[#272b33] min-h-[calc(-60px + 50vh)]"> 
         {
