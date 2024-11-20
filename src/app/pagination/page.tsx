@@ -11,3 +11,5 @@ const pagination = async ({ searchParams }:SearchParams)=>{
         </>
     )
 }
+
+export default pagination ;

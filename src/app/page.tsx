@@ -1,16 +1,15 @@
 import MainPage from "@/components/MainPage";
 import InfiniteScroll from '../components/InfiniteScroll/index';
 import SelectButton from '../components/SelectButton/index';
-type SearchParams = { [key: string]: string | string[] | undefined }
 
-export default async function Home({ searchParams }:SearchParams) {
-const {page} =await searchParams;
+export default async function Home() {
   return (
     <div className="m-0">
+      <div>how do you want to see the characters ? </div>
       <SelectButton value="pagination"/>
-      <SelectButton value="infinit scroll" />
+      <SelectButton value="infiniteScroll" />
     {/* <MainPage page={page}/> */}
-    <InfiniteScroll/>
+    {/* <InfiniteScroll/> */}
     </div>
   );
 }
