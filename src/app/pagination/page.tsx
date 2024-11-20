@@ -3,13 +3,9 @@ type SearchParams = { [key: string]: string | string[] | undefined }
 
 const pagination = async ({ searchParams }:SearchParams)=>{
     const {page} =await searchParams;
-
-    return
-    (
-        <>
-       < MainPage page={page}/>
-        </>
-    )
+return (
+        <MainPage page={page} />
+)
 }
 
 export default pagination ;

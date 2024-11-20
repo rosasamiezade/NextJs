@@ -1,12 +1,8 @@
 
 import InfiniteScroll from '../../components/InfiniteScroll/index';
 const Infinit = async ()=>{
-
-    return
-    (
-        <>
-       < InfiniteScroll/>
-        </>
+    return(
+        <InfiniteScroll />
     )
 }
 
